@@ -18,8 +18,25 @@ st.markdown(
         background-color: #f0f2f6;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
+    /* 
+       The header now uses your logo as a background image
+       plus a purple gradient overlay.
+       Adjust background-size to 'cover' or 'contain' as desired.
+       Adjust background-blend-mode to 'overlay', 'multiply', etc. 
+       to tweak how the gradient blends with the image.
+    */
     .header {
-        background: linear-gradient(90deg, #1f77b4, #3ba6e0);
+        background: linear-gradient(
+            90deg,
+            rgba(142,68,173, 0.7),
+            rgba(155,81,224, 0.7)
+        ), url("black_without-tagline.png");
+        background-size: contain; /* or 'cover' */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-blend-mode: multiply;
+
         color: white;
         padding: 40px;
         text-align: center;
@@ -35,6 +52,7 @@ st.markdown(
         font-size: 1.2em;
         margin-top: 10px;
     }
+
     .org-info {
         background-color: #ffffff;
         padding: 30px;
@@ -42,8 +60,9 @@ st.markdown(
         margin-bottom: 30px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+    /* Heading colors to match your brand color */
     .org-info h2, .org-info h3 {
-        color: #1f77b4;
+        color: #8E44AD;
     }
     .repo-card {
         position: relative;
@@ -58,22 +77,25 @@ st.markdown(
     .repo-card:hover {
         transform: translateY(-5px);
     }
+    /* Repository name in purple */
     .repo-card h3 {
         margin-top: 0;
-        color: #1f77b4;
+        color: #8E44AD;
         font-size: 1.5em;
     }
     .icons {
         margin-top: 10px;
     }
+    /* Icon color in brand palette */
     .icons a {
         margin-right: 15px;
-        color: #3ba6e0;
+        color: #9B51E0;
         transition: color 0.2s;
         font-size: 1.75em;
     }
+    /* Hover color for icons */
     .icons a:hover {
-        color: #1f77b4;
+        color: #8E44AD;
     }
     /* Tooltip styling with pointer-events disabled */
     .tooltip {
@@ -99,7 +121,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Header Section
+# Header Section with your logo as background
 st.markdown(
     """
     <div class="header">
@@ -147,7 +169,8 @@ st.markdown(
 )
 
 # Display Projects Section Title
-st.markdown("<h2 style='color:#1f77b4;'>Our Projects</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='color:#8E44AD;'>Our Projects</h2>",
+            unsafe_allow_html=True)
 
 # GitHub API endpoint for organization repositories
 ORG_NAME = 'alphatechlogics'
@@ -157,7 +180,7 @@ GITHUB_API_URL = f'https://api.github.com/orgs/{ORG_NAME}/repos'
 response = requests.get(GITHUB_API_URL)
 all_repos = response.json()
 
-# Mapping of repository names to their demo URLs.
+# Mapping of repository names to their demo URLs
 demo_urls = {
     "AIAvatar": "https://aiavatar.streamlit.app/",
     "Alpha-navigator": "https://alpha-navigator.streamlit.app/",
@@ -184,7 +207,7 @@ demo_urls = {
     "Text-to-Image-Generation-via-DALL-E3-StableDiffusion": "https://text-to-image-generation-via-dall-e3-stablediffusion.streamlit.app/"
 }
 
-# Manually provided descriptions for specific repositories.
+# Manually provided descriptions for specific repositories
 manual_descriptions = {
     "ICUMonitorScreenReader": "Welcome to the ICU Monitor Data Extraction app! This app utilizes OpenAI's Vision API to analyze ICU monitor images, extract vital signs like heart rate (HR), blood pressure (BP), oxygen saturation (SpO2), respiratory rate (RR), temperature, and more. The app displays these vital signs in a user-friendly table format.",
     "StockMarketPricePrediction": "Welcome to the Stock Price Prediction App, an interactive web application designed to forecast future stock prices using advanced time-series modeling techniques. This application leverages an intuitive interface, real-time data retrieval, and an AI-based forecasting library to provide quick and accessible insights for users interested in analyzing and predicting stock market behavior.",
@@ -196,12 +219,13 @@ manual_descriptions = {
     "AIAvatar": "Welcome to the LightX AI Services app! This Streamlit application lets you transform your personal photo into either a personalized AI Avatar or a professional full-body cartoon character using the LightX APIs."
 }
 
-# Filter repositories to include only those that have demo URLs defined.
+# Filter repositories to include only those that have demo URLs defined
 repos = [repo for repo in all_repos if repo['name'] in demo_urls]
 
 # Define grid layout for project cards (4 per row)
 cols_per_row = 4
-rows_list = [repos[i: i + cols_per_row] for i in range(0, len(repos), cols_per_row)]
+rows_list = [repos[i: i + cols_per_row]
+             for i in range(0, len(repos), cols_per_row)]
 
 for row in rows_list:
     cols = st.columns(cols_per_row)
@@ -210,9 +234,11 @@ for row in rows_list:
             repo_name = repo['name']
             repo_url = repo['html_url']
             demo_url = demo_urls.get(repo_name, "#")
-            # Use the manual description if available; otherwise, fallback to repo's description or default text.
-            description = manual_descriptions.get(repo_name, repo['description'] or "No description provided.")
-            st.markdown(f"""
+            # Use the manual description if available; otherwise, fallback to the repo's description or a default message.
+            description = manual_descriptions.get(repo_name, repo.get(
+                'description') or "No description provided.")
+            st.markdown(
+                f"""
                 <div class="repo-card">
                     <h3>{repo_name}</h3>
                     <div class="icons">
@@ -221,4 +247,6 @@ for row in rows_list:
                     </div>
                     <div class="tooltip">{description}</div>
                 </div>
-            """, unsafe_allow_html=True)
+                """,
+                unsafe_allow_html=True
+            )
