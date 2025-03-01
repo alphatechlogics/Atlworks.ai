@@ -111,15 +111,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Header Section with only the logo
+# Header Section with only the logo (no text)
 st.markdown(
     """
     <div class="header">
-    <h1></h1>        
-    <h1></h1>
+        <h1></h1>
+        <h1></h1>
     </div>
-    
-
     """,
     unsafe_allow_html=True,
 )
@@ -211,8 +209,15 @@ manual_descriptions = {
     "AIAvatar": "Welcome to the LightX AI Services app! This Streamlit application lets you transform your personal photo into either a personalized AI Avatar or a professional full-body cartoon character using the LightX APIs."
 }
 
-# Filter repositories to include only those that have demo URLs defined
-repos = [repo for repo in all_repos if repo['name'] in demo_urls]
+# --- Safe Filtering of Repositories ---
+if isinstance(all_repos, list):
+    safe_repos = [repo for repo in all_repos if isinstance(
+        repo, dict) and 'name' in repo]
+    repos = [repo for repo in safe_repos if repo['name'] in demo_urls]
+else:
+    st.error("GitHub API response is not a list. Response:")
+    st.write(all_repos)
+    repos = []
 
 # Define grid layout for project cards (4 per row)
 cols_per_row = 4
