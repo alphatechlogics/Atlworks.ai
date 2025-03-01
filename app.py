@@ -168,7 +168,15 @@ ORG_NAME = 'alphatechlogics'
 GITHUB_API_URL = f'https://api.github.com/orgs/{ORG_NAME}/repos'
 
 # Get GitHub token from environment variable or Streamlit secrets
-github_token = os.getenv("GITHUB_TOKEN") or st.secrets.get("GITHUB_TOKEN")
+github_token = os.getenv("GITHUB_TOKEN")
+try:
+    # Try to retrieve the token from Streamlit secrets
+    token = st.secrets.get("GITHUB_TOKEN")
+    if token:
+        github_token = token
+except Exception:
+    # If no secrets file is found, github_token remains as set from environment (or None)
+    pass
 
 # Set up headers to use authentication if a token is available
 headers = {}
@@ -225,6 +233,8 @@ if isinstance(all_repos, list):
     safe_repos = [repo for repo in all_repos if isinstance(
         repo, dict) and 'name' in repo]
     repos = [repo for repo in safe_repos if repo['name'] in demo_urls]
+    # Sort repositories alphabetically (case-insensitive)
+    repos = sorted(repos, key=lambda x: x['name'].lower())
 else:
     st.error("GitHub API response is not a list. Response:")
     st.write(all_repos)
