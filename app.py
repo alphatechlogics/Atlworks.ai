@@ -22,7 +22,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inject custom CSS with your company color (#A917FE) in various elements
+# Inject custom CSS
 st.markdown(
     f"""
     <style>
@@ -31,33 +31,18 @@ st.markdown(
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }}
 
-    /* Header styling with a gradient overlay using the company color and the embedded logo image */
+    /* Header with a black background and centered logo */
     .header {{
-        background: linear-gradient(
-            90deg,
-            rgba(169,23,254, 0.7),
-            rgba(169,23,254, 0.9)
-        ), url("data:image/png;base64,{logo_base64}");
+        background: #000000 url("data:image/png;base64,{logo_base64}") no-repeat center;
         background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-blend-mode: multiply;
         color: white;
         padding: 40px;
         text-align: center;
         border-radius: 10px;
         margin-bottom: 30px;
     }}
-    .header h1 {{
-        margin: 0;
-        font-size: 3em;
-        font-weight: 700;
-    }}
-    .header p {{
-        font-size: 1.2em;
-        margin-top: 10px;
-    }}
 
+    /* Organization info section styling */
     .org-info {{
         background-color: #ffffff;
         padding: 30px;
@@ -65,10 +50,12 @@ st.markdown(
         margin-bottom: 30px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }}
-    /* Change organization info heading colors to company color */
+    /* Headings in your brand color */
     .org-info h2, .org-info h3 {{
         color: #A917FE;
     }}
+
+    /* Repository card styling */
     .repo-card {{
         position: relative;
         background-color: #ffffff;
@@ -82,16 +69,15 @@ st.markdown(
     .repo-card:hover {{
         transform: translateY(-5px);
     }}
-    /* Repository title in company color */
     .repo-card h3 {{
         margin-top: 0;
         color: #A917FE;
         font-size: 1.5em;
     }}
+
     .icons {{
         margin-top: 10px;
     }}
-    /* Icon color set to company color */
     .icons a {{
         margin-right: 15px;
         color: #A917FE;
@@ -101,6 +87,7 @@ st.markdown(
     .icons a:hover {{
         color: #A917FE;
     }}
+
     .tooltip {{
         display: none;
         pointer-events: none;
@@ -124,18 +111,15 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Header Section with the logo in the background
+# Header Section with only the logo
 st.markdown(
     """
     <div class="header">
-        <h1></h1>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+    <h1></h1>        
+    <h1></h1>
     </div>
+    
+
     """,
     unsafe_allow_html=True,
 )
@@ -176,7 +160,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Display Projects Section Title with company color
+# Display Projects Section Title
 st.markdown("<h2 style='color:#A917FE;'>Our Projects</h2>",
             unsafe_allow_html=True)
 
