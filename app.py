@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import base64
@@ -166,8 +167,18 @@ st.markdown("<h2 style='color:#A917FE;'>Our Projects</h2>",
 ORG_NAME = 'alphatechlogics'
 GITHUB_API_URL = f'https://api.github.com/orgs/{ORG_NAME}/repos'
 
-# Fetch repositories data
-response = requests.get(GITHUB_API_URL)
+# Get GitHub token from environment variable or Streamlit secrets
+github_token = os.getenv("GITHUB_TOKEN") or st.secrets.get("GITHUB_TOKEN")
+
+# Set up headers to use authentication if a token is available
+headers = {}
+if github_token:
+    headers["Authorization"] = f"Bearer {github_token}"
+    headers["Accept"] = "application/vnd.github+json"
+    headers["X-GitHub-Api-Version"] = "2022-11-28"
+
+# Fetch repositories data from GitHub
+response = requests.get(GITHUB_API_URL, headers=headers)
 all_repos = response.json()
 
 # Mapping of repository names to their demo URLs
