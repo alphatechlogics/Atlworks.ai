@@ -1,5 +1,17 @@
 import streamlit as st
 import requests
+import base64
+
+# Function to convert an image to a Base64 string
+
+
+def get_base64_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
+
+
+# Get Base64 string of the logo image
+logo_base64 = get_base64_image("black_without-tagline.png")
 
 # Set page configuration
 st.set_page_config(page_title="AlphaTech Logics Dashboard", layout="wide")
@@ -10,61 +22,53 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inject custom CSS for a modern look and tooltip styling
+# Inject custom CSS with the embedded logo image for the header background
 st.markdown(
-    """
+    f"""
     <style>
-    body {
+    body {{
         background-color: #f0f2f6;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    }}
 
-    /* 
-       The header now uses your logo as a background image
-       plus a purple gradient overlay.
-       Adjust background-size to 'cover' or 'contain' as desired.
-       Adjust background-blend-mode to 'overlay', 'multiply', etc. 
-       to tweak how the gradient blends with the image.
-    */
-    .header {
+    /* Header styling with a purple gradient overlay and embedded logo image */
+    .header {{
         background: linear-gradient(
             90deg,
             rgba(142,68,173, 0.7),
             rgba(155,81,224, 0.7)
-        ), url("black_without-tagline.png");
-        background-size: contain; /* or 'cover' */
+        ), url("data:image/png;base64,{logo_base64}");
+        background-size: contain; /* or use 'cover' depending on your preference */
         background-repeat: no-repeat;
-        background-position: center;
+        background-position: left;
         background-blend-mode: multiply;
-
         color: white;
         padding: 40px;
         text-align: center;
         border-radius: 10px;
         margin-bottom: 30px;
-    }
-    .header h1 {
+    }}
+    .header h1 {{
         margin: 0;
         font-size: 3em;
         font-weight: 700;
-    }
-    .header p {
+    }}
+    .header p {{
         font-size: 1.2em;
         margin-top: 10px;
-    }
+    }}
 
-    .org-info {
+    .org-info {{
         background-color: #ffffff;
         padding: 30px;
         border-radius: 10px;
         margin-bottom: 30px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    /* Heading colors to match your brand color */
-    .org-info h2, .org-info h3 {
+    }}
+    .org-info h2, .org-info h3 {{
         color: #8E44AD;
-    }
-    .repo-card {
+    }}
+    .repo-card {{
         position: relative;
         background-color: #ffffff;
         padding: 20px;
@@ -73,32 +77,28 @@ st.markdown(
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         transition: transform 0.2s;
         overflow: hidden;
-    }
-    .repo-card:hover {
+    }}
+    .repo-card:hover {{
         transform: translateY(-5px);
-    }
-    /* Repository name in purple */
-    .repo-card h3 {
+    }}
+    .repo-card h3 {{
         margin-top: 0;
         color: #8E44AD;
         font-size: 1.5em;
-    }
-    .icons {
+    }}
+    .icons {{
         margin-top: 10px;
-    }
-    /* Icon color in brand palette */
-    .icons a {
+    }}
+    .icons a {{
         margin-right: 15px;
         color: #9B51E0;
         transition: color 0.2s;
         font-size: 1.75em;
-    }
-    /* Hover color for icons */
-    .icons a:hover {
+    }}
+    .icons a:hover {{
         color: #8E44AD;
-    }
-    /* Tooltip styling with pointer-events disabled */
-    .tooltip {
+    }}
+    .tooltip {{
         display: none;
         pointer-events: none;
         position: absolute;
@@ -112,16 +112,16 @@ st.markdown(
         font-size: 0.9em;
         line-height: 1.2;
         z-index: 10;
-    }
-    .repo-card:hover .tooltip {
+    }}
+    .repo-card:hover .tooltip {{
         display: block;
-    }
+    }}
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Header Section with your logo as background
+# Header Section with the logo in the background
 st.markdown(
     """
     <div class="header">
