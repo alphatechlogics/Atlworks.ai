@@ -23,13 +23,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inject custom CSS
+# Inject custom CSS with Times New Roman font style
 st.markdown(
     f"""
     <style>
     body {{
         background-color: #f0f2f6;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Times New Roman', Times, serif;
     }}
 
     /* Header with a black background and centered logo */
@@ -58,8 +58,7 @@ st.markdown(
 
     /* Repository card styling */
     .repo-card {{
-        position: relative;
-        background-color: #ffffff;
+        /* The background-color will be overridden by inline style */
         padding: 20px;
         margin: 10px;
         border-radius: 10px;
@@ -170,12 +169,10 @@ GITHUB_API_URL = f'https://api.github.com/orgs/{ORG_NAME}/repos'
 # Get GitHub token from environment variable or Streamlit secrets
 github_token = os.getenv("GITHUB_TOKEN")
 try:
-    # Try to retrieve the token from Streamlit secrets
     token = st.secrets.get("GITHUB_TOKEN")
     if token:
         github_token = token
 except Exception:
-    # If no secrets file is found, github_token remains as set from environment (or None)
     pass
 
 # Set up headers to use authentication if a token is available
@@ -245,9 +242,16 @@ cols_per_row = 4
 rows_list = [repos[i: i + cols_per_row]
              for i in range(0, len(repos), cols_per_row)]
 
+# List of light background colors
+light_colors = ["#f7f7f7", "#e6f7ff",
+                "#e8ffe8", "#fff0e6", "#f0f8ff", "#fdfd96"]
+card_index = 0
+
 for row in rows_list:
     cols = st.columns(cols_per_row)
     for idx, repo in enumerate(row):
+        bg_color = light_colors[card_index % len(light_colors)]
+        card_index += 1
         with cols[idx]:
             repo_name = repo['name']
             repo_url = repo['html_url']
@@ -257,7 +261,7 @@ for row in rows_list:
                 'description') or "No description provided.")
             st.markdown(
                 f"""
-                <div class="repo-card">
+                <div class="repo-card" style="background-color: {bg_color};">
                     <h3>{repo_name}</h3>
                     <div class="icons">
                         <a href="{repo_url}" target="_blank" title="View on GitHub"><i class="fab fa-github"></i></a>
