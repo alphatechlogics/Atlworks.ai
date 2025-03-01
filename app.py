@@ -22,7 +22,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Inject custom CSS with the embedded logo image for the header background
+# Inject custom CSS with your company color (#A917FE) in various elements
 st.markdown(
     f"""
     <style>
@@ -31,16 +31,16 @@ st.markdown(
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }}
 
-    /* Header styling with a purple gradient overlay and embedded logo image */
+    /* Header styling with a gradient overlay using the company color and the embedded logo image */
     .header {{
         background: linear-gradient(
             90deg,
-            rgba(142,68,173, 0.7),
-            rgba(155,81,224, 0.7)
+            rgba(169,23,254, 0.7),
+            rgba(169,23,254, 0.9)
         ), url("data:image/png;base64,{logo_base64}");
-        background-size: contain; /* or use 'cover' depending on your preference */
+        background-size: contain;
         background-repeat: no-repeat;
-        background-position: left;
+        background-position: center;
         background-blend-mode: multiply;
         color: white;
         padding: 40px;
@@ -65,8 +65,9 @@ st.markdown(
         margin-bottom: 30px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }}
+    /* Change organization info heading colors to company color */
     .org-info h2, .org-info h3 {{
-        color: #8E44AD;
+        color: #A917FE;
     }}
     .repo-card {{
         position: relative;
@@ -81,22 +82,24 @@ st.markdown(
     .repo-card:hover {{
         transform: translateY(-5px);
     }}
+    /* Repository title in company color */
     .repo-card h3 {{
         margin-top: 0;
-        color: #8E44AD;
+        color: #A917FE;
         font-size: 1.5em;
     }}
     .icons {{
         margin-top: 10px;
     }}
+    /* Icon color set to company color */
     .icons a {{
         margin-right: 15px;
-        color: #9B51E0;
+        color: #A917FE;
         transition: color 0.2s;
         font-size: 1.75em;
     }}
     .icons a:hover {{
-        color: #8E44AD;
+        color: #A917FE;
     }}
     .tooltip {{
         display: none;
@@ -125,8 +128,13 @@ st.markdown(
 st.markdown(
     """
     <div class="header">
-        <h1>AlphaTech Logics</h1>
-        <p>Accelerating Business Development with Scalable Digital Products</p>
+        <h1></h1>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
     </div>
     """,
     unsafe_allow_html=True,
@@ -168,8 +176,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Display Projects Section Title
-st.markdown("<h2 style='color:#8E44AD;'>Our Projects</h2>",
+# Display Projects Section Title with company color
+st.markdown("<h2 style='color:#A917FE;'>Our Projects</h2>",
             unsafe_allow_html=True)
 
 # GitHub API endpoint for organization repositories
