@@ -5,6 +5,8 @@ import base64
 import re
 from dotenv import load_dotenv
 from typing import Dict, List, Optional, Tuple
+from PIL import Image
+from io import BytesIO
 
 # Load environment variables from .env file
 load_dotenv()
@@ -520,6 +522,7 @@ class GitHubProjectsDashboard:
             unsafe_allow_html=True,
         )
     
+
     def render_repository_card(self, repo: Dict, bg_color: str):
         """Render a single repository card"""
         repo_name = repo.get('name', 'Unnamed Repository')
@@ -533,11 +536,13 @@ class GitHubProjectsDashboard:
         else:
             description = description.strip()
             description_class = ''
+
+        streamlit_url = repo.get('homepage', None)
         
         is_private = repo.get('private', False)
         
         # Extract Streamlit URL and image from README
-        streamlit_url, image_url = self.extract_readme_info(repo_name)
+        _, image_url = self.extract_readme_info(repo_name)
         
         # Create privacy badge
         privacy_badge = f'<span class="private-badge">Private</span>' if is_private else f'<span class="public-badge">Public</span>'
